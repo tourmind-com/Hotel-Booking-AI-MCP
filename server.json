@@ -1,0 +1,17 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.tourmind-com/hotel-booking-ai-mcp",
+  "title": "Hotel Booking AI MCP",
+  "description": "Consumer hotel search, live rates, booking, order management, and payment via TourMind.",
+  "repository": {
+    "url": "https://github.com/tourmind-com/Hotel-Booking-AI-MCP",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.tourmind.com/mcp/toc"
+    }
+  ]
+}
