@@ -6,7 +6,7 @@ description: >
 
 # Hotel Booking AI Skill (ToC MCP)
 
-**Skill version:** `1.0.0`
+**Skill version:** `1.0.1`
 
 Use the connected `tourmind` MCP server for live hotel discovery, room-rate comparison, availability checks, booking, order management and payment. Do not call the TourMind HTTP backend directly. Public discovery and rate tools need no credential; authenticated order tools use `user_key` as described below.
 
