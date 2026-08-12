@@ -44,7 +44,7 @@ Hotel discovery:
 search_location → search_hotels → query_room_rates → get_hotel_detail
 
 Booking:
-query_room_rates → check_room_availability → create_booking
+query_room_rates → check_room_availability → final booking-confirmation template → create_booking
 
 Payment:
 create_booking → pay_order
@@ -53,7 +53,7 @@ Order management:
 query_booking / cancel_booking
 ```
 
-The Agent must not quote `search_hotels.min_price` as a live bookable price. It must use `query_room_rates` for live prices and the latest `check_room_availability` result when creating a booking.
+The Agent must not quote `search_hotels.min_price` as a live bookable price. It must use `query_room_rates` for live prices and the latest `check_room_availability` result when creating a booking. Before `create_booking`, it must present the companion Skill's final booking-confirmation template and receive explicit confirmation. The template includes check-in/out times from `get_hotel_detail`, any explicit `hotel.fees.mandatory` disclosure, the tax notice and the 7×24 customer-service contact.
 
 ## Skill version flow
 
@@ -158,7 +158,7 @@ The development implementation must:
 - Require `user_key` in the tool arguments for `create_booking`, `query_booking`, `cancel_booking`, and `pay_order`.
 - Allow an optional already stored `user_key` only on `search_hotels` and `query_room_rates` to generate a read-only `web_url`; public JSON results must still work without it.
 - Keep `user_key` and all authentication credentials out of user-visible results.
-- Require explicit user confirmation for booking, cancellation, and payment actions.
+- Require explicit user confirmation for booking, cancellation, and payment actions. Booking confirmation must follow presentation of the companion Skill's final booking-confirmation template, including hotel check-in/out times and explicit mandatory at-property fees when returned.
 - Return concrete errors without inventing hotel, room, price, booking, or payment data.
 
 Server framework, hosting, deployment commands, key storage, retry implementation, and release hosting are intentionally outside this product contract.
