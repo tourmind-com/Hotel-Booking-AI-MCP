@@ -60,7 +60,7 @@ No-update response:
   "skill_update": {
     "available": false,
     "display_to_user": false,
-    "latest_version": "1.0.1"
+    "latest_version": "1.0.2"
   }
 }
 ```
@@ -264,7 +264,7 @@ Use only products whose occupancy and other hard requirements match the user. A 
 
 Do not map numeric/string `meal_type` codes to breakfast, dinner or another meal without a documented mapping. `meal_count=0` may be shown as no included meal; when positive but the type is unknown, say `Meal included for {meal_count} guests; type not specified`.
 
-When the request includes an already stored valid `user_key`, the response may also include top-level `web_url`, `web_url_expires_at` and `web_url_one_time`. The link can be opened repeatedly until `web_url_expires_at`. The linked TourMind page displays the hotel and returned room quotes in read-only mode. It does not support verification, booking, payment, `/book/*`, order management, finance or account management. Continue those actions through the ToC MCP tools in the current AI conversation. Without a stored key, the rate query must still proceed normally.
+When the request includes an already stored valid `user_key`, the response may also include top-level `web_url`, `web_url_expires_at` and `web_url_one_time`. The link can be opened repeatedly until `web_url_expires_at`. The linked TourMind page displays the hotel and returned room quotes in read-only mode. Preserve it with that exact hotel and show it directly below the hotel's hero image as `[View hotel details]`; never show the original image URL as a separate link or substitute the hotel-list `search_hotels.web_url`. It does not support verification, booking, payment, `/book/*`, order management, finance or account management. Continue those actions through the ToC MCP tools in the current AI conversation. Without a stored key, the rate query must still proceed normally and the unavailable hotel-detail link must be omitted.
 
 ### MCP tool `check_room_availability`
 
@@ -344,7 +344,8 @@ Do not use generic praise or cached price. If the user asks to view all returned
 | Distance | `search_hotels.hotels[].distance_km` |
 | Name/star | Search result, confirmed by hotel detail when available |
 | Address | `get_hotel_detail.hotel.address_cn`, then `address` |
-| Hero image | Hotel-image priority described above |
+| Hero image | Hotel-image priority described above; render it without exposing the source URL as a separate link |
+| Hotel detail page | The same hotel's top-level `query_room_rates.web_url`; never use `search_hotels.web_url` |
 | Room/price | Matching live product from `query_room_rates` |
 | Cancellation | Matching product's `cancellation_policy` |
 | Tax or fee note | Show only explicit tax or fee data returned by the API, or when the user asks |
