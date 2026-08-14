@@ -7,7 +7,7 @@
     "url": "https://github.com/tourmind-com/Hotel-Booking-AI-MCP",
     "source": "github"
   },
-  "version": "1.0.2",
+  "version": "1.0.3",
   "remotes": [
     {
       "type": "streamable-http",
