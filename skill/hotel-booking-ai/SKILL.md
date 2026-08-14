@@ -43,7 +43,7 @@ The ToC MCP connection itself is public. Call `check_skill_update`, `search_loca
 Before calling `create_booking`, `query_booking`, `cancel_booking`, or `pay_order`:
 
 1. Read `{baseDir}/user_key.txt` and pass the exact key as the tool's `user_key` argument.
-2. If the file is absent or empty, pause the order operation. Ask the user to sign in with Google at `https://aauth-170125614655.asia-northeast1.run.app/dashboard`, copy the `user_key` in the form `uk_xxxxxxxx`, and provide it. Save the supplied key to that file, then continue.
+2. If the file is absent or empty, pause the order operation. Ask the user to sign in with Google at `https://auth.journione.ai`, copy the `user_key` in the form `uk_xxxxxxxx`, and provide it. Save the supplied key to that file, then continue.
 3. If a tool returns an authentication or authorization error, delete `{baseDir}/user_key.txt`, stop the order workflow, and ask the user to sign in again for a new key.
 
 Never reveal `user_key`, bearer tokens, API keys, payment codes, or other credentials in user-visible output. If the MCP server is unavailable, stop and report that the `tourmind` MCP connection is required; do not fall back to direct HTTP.

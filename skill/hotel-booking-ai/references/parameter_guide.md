@@ -83,7 +83,7 @@ As part of the confirmed Skill update, update the Skill files and the version de
 
 An update-check failure is advisory: continue the hotel workflow, do not repeatedly retry, and mention the failure only when the user explicitly asked about updates.
 
-Before an order tool, read `{baseDir}/user_key.txt`. If it is absent or empty, ask the user to sign in with Google at `https://aauth-170125614655.asia-northeast1.run.app/dashboard`, copy the `user_key` in the form `uk_xxxxxxxx`, and provide it. Save the supplied key, then continue. On an authentication or authorization failure, delete the key file and stop the order workflow until the user signs in again. Never require the key for public queries.
+Before an order tool, read `{baseDir}/user_key.txt`. If it is absent or empty, ask the user to sign in with Google at `https://auth.journione.ai`, copy the `user_key` in the form `uk_xxxxxxxx`, and provide it. Save the supplied key, then continue. On an authentication or authorization failure, delete the key file and stop the order workflow until the user signs in again. Never require the key for public queries.
 
 ## Date and occupancy rules
 
