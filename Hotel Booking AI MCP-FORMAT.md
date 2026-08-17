@@ -112,7 +112,7 @@ No-update result:
   "skill_update": {
     "available": false,
     "display_to_user": false,
-    "latest_version": "1.0.3"
+    "latest_version": "1.0.2"
   }
 }
 ```
@@ -154,9 +154,9 @@ The development implementation must:
 - Do not require the nine business tools to receive the Skill version.
 - Reject malformed `current_version` values with a concrete validation error.
 - Allow the release service to change `message` and `release_source_url` without requiring a local MCP connection change.
-- Require the Agent to call `check_skill_update`, `search_location`, `search_hotels`, `get_hotel_detail`, `query_room_rates`, and `check_room_availability` without a connection credential or `user_key`, even when a key is already stored.
+- Allow `check_skill_update`, `search_location`, `search_hotels`, `get_hotel_detail`, `query_room_rates`, and `check_room_availability` without a connection credential or `user_key`.
 - Require `user_key` in the tool arguments for `create_booking`, `query_booking`, `cancel_booking`, and `pay_order`.
-- Allow public `search_hotels` and `query_room_rates` calls to return read-only `web_url`, `web_url_expires_at`, and `web_url_one_time` fields without authentication. The Agent must not send `user_key` to obtain them.
+- Allow an optional already stored `user_key` only on `search_hotels` and `query_room_rates` to generate a read-only `web_url`; public JSON results must still work without it.
 - Keep `user_key` and all authentication credentials out of user-visible results.
 - Require explicit user confirmation for booking, cancellation, and payment actions. Booking confirmation must follow presentation of the companion Skill's final booking-confirmation template, including hotel check-in/out times and explicit mandatory at-property fees when returned.
 - Return concrete errors without inventing hotel, room, price, booking, or payment data.

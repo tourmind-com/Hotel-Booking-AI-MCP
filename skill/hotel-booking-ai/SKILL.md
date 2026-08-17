@@ -6,7 +6,7 @@ description: >
 
 # Hotel Booking AI Skill (ToC MCP)
 
-**Skill version:** `1.0.3`
+**Skill version:** `1.0.2`
 
 Use the connected `tourmind` MCP server for live hotel discovery, room-rate comparison, availability checks, booking, order management and payment. Do not call the TourMind HTTP backend directly. Public discovery and rate tools need no credential; authenticated order tools use `user_key` as described below.
 
@@ -38,7 +38,7 @@ Use only these `tourmind` MCP tools:
 | Cancel booking | `cancel_booking` |
 | Start payment | `pay_order` |
 
-The ToC MCP connection itself is public. Call `check_skill_update`, `search_location`, `search_hotels`, `get_hotel_detail`, `query_room_rates`, and `check_room_availability` without `user_key`, even when a key is already stored. Their public results may include read-only `web_url` values. Read and send `user_key` only for `create_booking`, `query_booking`, `cancel_booking`, and `pay_order`.
+The ToC MCP connection itself is public. Call `check_skill_update`, `search_location`, `search_hotels`, `get_hotel_detail`, `query_room_rates`, and `check_room_availability` without `user_key`. When a valid key is already stored, `search_hotels` and `query_room_rates` may include it only to receive a read-only `web_url`; never ask for a key merely to search, inspect a hotel, query rates, or check availability.
 
 Before calling `create_booking`, `query_booking`, `cancel_booking`, or `pay_order`:
 
@@ -121,7 +121,7 @@ Never invent coordinates, geocode from model memory or substitute a city-wide se
    - **Hard constraints:** dates, occupancy, room count, explicit radius, strict budget, required star level, required facilities or property type.
    - **Soft preferences:** closer, cheaper, higher star level, breakfast, free cancellation, preferred facilities or room type.
 2. Call `search_hotels` with the applicable hard search fields. Preserve the complete raw candidate pool and `distance_km` values so a later "show all" request can be fulfilled.
-   - Call `search_hotels` without `user_key`. If a top-level `web_url` is returned, preserve it and include it as a clickable read-only hotel-results link. Place the link guidance after the search-summary fields and before the first recommended hotel, with one blank line on each side. Tell the user to open a hotel detail page, click the copy button beside the desired room product, and send the copied product information back in the conversation so you can continue verification and booking. Do not alter the URL. The linked session only permits hotel lists, hotel details and room quotes; it does not permit verification, booking, payment, `/book/*`, order, finance or account-management pages. If no link is returned, continue the MCP search normally without one.
+   - If a top-level `web_url` is returned because an already stored valid `user_key` was included, preserve it and include it as a clickable read-only hotel-results link. Place the link guidance after the search-summary fields and before the first recommended hotel, with one blank line on each side. Tell the user to open a hotel detail page, click the copy button beside the desired room product, and send the copied product information back in the conversation so you can continue verification and booking. Do not expose the underlying key or alter the URL. The linked session only permits hotel lists, hotel details and room quotes; it does not permit verification, booking, payment, `/book/*`, order, finance or account-management pages. If no key is stored, continue the MCP search normally without a link.
 3. Exclude obvious hard-constraint failures from the recommendation/ranking pool, but retain them in the raw pool with every failed constraint recorded.
 4. Call `query_room_rates` for every remaining candidate needed to rank the recommendation pool fairly, in controlled batches. Do not stop at the first five cached-price results. Exclude candidates with no matching live product from recommendations, but retain their no-live-product status in the raw pool.
    - Preserve each response's top-level `web_url` as that exact hotel's `hotel_web_url`. Never reuse the hotel-list `search_hotels.web_url` for an individual hotel.
@@ -219,7 +219,7 @@ Adjust the sentence when fewer than five qualify or when all results are already
 
 When the user chooses or asks about one hotel, call `get_hotel_detail` and `query_room_rates` and return the hotel summary, room images and matching live quotes together. Do not wait for separate follow-up questions.
 
-Call `query_room_rates` without `user_key`. If `query_room_rates.data.web_url` is returned, show it as a clickable read-only hotel and room-rate page. The linked page only displays hotel details and room quotes. It does not support price verification, booking, payment, `/book/*`, order management, finance or account management. Continue those actions in the current AI conversation through the `tourmind` MCP tools. If no link is returned, continue the rate query normally without one.
+If `query_room_rates.data.web_url` is returned because an already stored valid `user_key` was included, show it as a clickable read-only hotel and room-rate page. The linked page only displays hotel details and room quotes. It does not support price verification, booking, payment, `/book/*`, order management, finance or account management. Continue those actions in the current AI conversation through the `tourmind` MCP tools. If no key is stored, continue the rate query normally without a link.
 
 1. Show the hotel hero image by following the client-safe hero-image rules above, plus the concise address, star, distance, check-in/out and facilities. Include a fee summary only when the API explicitly returns a fee or the user asks about fees.
 2. Rank live room products by the user's request; show up to five distinct products by default and offer all remaining products.

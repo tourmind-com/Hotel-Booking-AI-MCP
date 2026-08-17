@@ -33,7 +33,7 @@ Use the public production endpoint without connection headers:
 }
 ```
 
-The MCP connection itself is public. Call `check_skill_update`, hotel search, hotel detail, live rates, and availability checks without `user_key`, even when a key is already stored. Booking, order lookup, cancellation, and payment tools receive `user_key` from the companion Skill only when those protected actions are requested.
+The MCP connection itself is public. `check_skill_update`, hotel search, hotel detail, live rates, and availability checks require no `user_key`. Booking, order lookup, cancellation, and payment tools receive `user_key` from the companion Skill only when those protected actions are requested.
 
 ## Product model
 
@@ -47,7 +47,7 @@ The ToC variant differs only where the product differs:
 | Connection authentication | Public connection; no headers |
 | Discovery and availability | Public; no `user_key` required |
 | Booking and order operations | Require `user_key` from `user_key.txt` |
-| Read-only `web_url` | May be returned by public hotel search or room-rate queries; do not send `user_key` |
+| Read-only `web_url` | Optional; an already stored `user_key` may be sent only with hotel search or room-rate queries |
 
 The MCP service provides stable hotel tools. The local Skill defines the current user workflow and can evolve independently as search, ranking, price verification, booking, and display strategies improve.
 
