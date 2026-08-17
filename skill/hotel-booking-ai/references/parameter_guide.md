@@ -60,7 +60,7 @@ No-update response:
   "skill_update": {
     "available": false,
     "display_to_user": false,
-    "latest_version": "1.0.2"
+    "latest_version": "1.0.3"
   }
 }
 ```
@@ -374,7 +374,7 @@ Tax and fees:
 
 - In the final booking-confirmation template, state that the TourMind room price is tax included. A small number of countries or regions require hotels to collect city or tourism taxes at check-in; include the required customer notice in that template.
 - Read `hotel.fees.mandatory` for city/resort/on-property charges and show its explicit content separately in every final booking-confirmation template. Do not invent an amount or charging basis.
-- When no explicit mandatory-fee content is returned, write `酒店未返回额外到店费用说明`; do not infer that no fee can ever be collected.
+- When no explicit mandatory-fee content is returned, write `The hotel did not return any additional mandatory fee information.`; do not infer that no fee can ever be collected.
 - Do not add mandatory-fee prose numerically unless the API gives an unambiguous amount and charging basis.
 
 Stripe:
@@ -392,8 +392,8 @@ Before booking, confirm:
 - exact hotel and room product;
 - dates, occupancy and room count;
 - latest checked total/currency, cancellation policy and availability;
-- hotel `checkin.begin_time` and `checkout.time`, or `酒店未提供` if either field is absent;
-- explicit `hotel.fees.mandatory` content, or `酒店未返回额外到店费用说明`;
+- hotel `checkin.begin_time` and `checkout.time`, or `Not provided by the hotel` if either field is absent;
+- explicit `hotel.fees.mandatory` content, or `The hotel did not return any additional mandatory fee information.`;
 - the tax notice and 7×24 TourMind customer-service contact `+86-755 3665 4666`;
 - full legal guest name;
 - mandatory contact email.
