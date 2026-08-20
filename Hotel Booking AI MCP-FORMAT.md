@@ -112,7 +112,7 @@ No-update result:
   "skill_update": {
     "available": false,
     "display_to_user": false,
-    "latest_version": "1.0.3"
+    "latest_version": "1.0.5"
   }
 }
 ```
