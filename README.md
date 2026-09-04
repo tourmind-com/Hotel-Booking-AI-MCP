@@ -33,7 +33,7 @@ Use the public production endpoint without connection headers:
 }
 ```
 
-The MCP connection itself is public. `check_skill_update`, hotel search, hotel detail, live rates, and availability checks require no `user_key`. Booking, order lookup, cancellation, and payment tools receive `user_key` from the companion Skill only when those protected actions are requested.
+The MCP connection itself is public. `check_skill_update`, hotel search, hotel detail, single-hotel rates, batch rates, and availability checks require no `user_key`. Booking, order lookup, cancellation, and payment tools receive `user_key` from the companion Skill only when those protected actions are requested.
 
 ## Product model
 
@@ -47,25 +47,25 @@ The ToC variant differs only where the product differs:
 | Connection authentication | Public connection; no headers |
 | Discovery and availability | Public; no `user_key` required |
 | Booking and order operations | Require `user_key` from `user_key.txt` |
-| Read-only `web_url` | Optional; an already stored `user_key` may be sent only with hotel search or room-rate queries |
+| Read-only `web_url` | Optional anonymous result returned by hotel-search or room-rate tools; no sign-in required |
 
-The MCP service provides stable hotel tools. The local Skill defines the current user workflow and can evolve independently as search, ranking, price verification, booking, and display strategies improve.
+The MCP service provides stable hotel tools, including `batch_query_room_rates` for partial-success live-rate retrieval across up to 20 hotels. Search, single/batch rate, availability, and booking tools support repeated per-room adult/child occupancy. The local Skill defines the current user workflow and can evolve independently as search, ranking, price verification, booking, and display strategies improve.
 
 ## Skill version and updates
 
-The installed `SKILL.md` is the single source of truth for the Skill version:
+The installed `SKILL.md` frontmatter is the single source of truth for the Skill version:
 
-```markdown
-# Hotel Booking AI Skill (ToC MCP)
-
-**Skill version:** `<current-version>`
+```yaml
+metadata:
+  author: TourMind
+  version: "<current-version>"
 ```
 
-The Agent sends this version only to `check_skill_update` when an update check is due. Business tools never receive a Skill version, and users never maintain it in the MCP connection configuration.
+The Agent sends `metadata.version` only to `check_skill_update` when an update check is due. Hotel and order tools never receive a Skill version, and users never maintain it in the MCP connection configuration.
 
 ## Development handoff
 
-The server implementation must satisfy `Hotel Booking AI MCP-FORMAT.md`, including all ten tools referenced by the companion Skill. Transport framework, hosting, deployment, internal forwarding, and release infrastructure are outside this package.
+The server implementation must satisfy `Hotel Booking AI MCP-FORMAT.md`, including all eleven tools referenced by the companion Skill. Transport framework, hosting, deployment, internal forwarding, and release infrastructure are outside this package.
 
 ## TourMind hotel booking ecosystem
 
@@ -74,6 +74,6 @@ Choose the package that matches the audience and connection model:
 | Audience | Integration | Authentication model | Repository |
 |---|---|---|---|
 | Consumer / ToC | Direct HTTP Skill | Public search and availability; `user_key` only for order operations | [Hotel Booking AI](https://github.com/tourmind-com/Hotel-Booking-AI) |
-| Business / ToB | Direct HTTP Skill | Skill Token required for every API call | [TourMind Booking Skill](https://github.com/tourmind-com/Tourmind-Booking-Skillss) |
+| Business / ToB | Direct HTTP Skill | Skill Token required for every API call | [TourMind Booking Skill](https://github.com/tourmind-com/Tourmind-Booking-Skills) |
 | Consumer / ToC | MCP package + companion Skill | Public MCP connection; `user_key` only for order operations | **[Hotel Booking AI MCP](https://github.com/tourmind-com/Hotel-Booking-AI-MCP)** |
 | Business / ToB | MCP package + companion Skill | Bearer-authenticated MCP connection | [TourMind Booking MCP](https://github.com/tourmind-com/Tourmind-Booking-MCP) |
